@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Nilai UT</title>
+    
+    <meta property="og:title" content="Kalkulator Nilai UT by Adi Ilkom">
+    <meta property="og:description" content="Simulasi hitung nilai akhir semester UT. Cek apakah nilai UAS kamu aman! Klik di sini.">
+    <meta property="og:image" content="https://adi-ilkom.github.io/kalkulator-nilai-ut/thumbnail.jpg">
+    <meta property="og:url" content="https://adi-ilkom.github.io/kalkulator-nilai-ut/">
+    <meta property="og:type" content="website">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -237,7 +244,6 @@
         resArea.style.display = 'block';
 
         let akhir = 0;
-        // Syarat Mutlak UT: UAS Minimal 30% Benar (Skor 30)
         if (skorUas >= 30) {
             statusBox.innerText = "✅ UAS AMAN (≥30%)";
             statusBox.className = "status-box status-aman";
@@ -245,17 +251,14 @@
         } else {
             statusBox.innerText = "⚠️ UAS DI BAWAH 30%";
             statusBox.className = "status-box status-bahaya";
-            akhir = skorUas; // Jika UAS < 30%, nilai tugas hangus, nilai akhir = nilai UAS murni
+            akhir = skorUas;
         }
 
         document.getElementById('resAngka').innerText = akhir.toFixed(2);
         document.getElementById('resHuruf').innerText = getGrade(akhir);
-        
-        // Scroll otomatis ke hasil
         resArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 </script>
 
 </body>
 </html>
-
