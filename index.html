@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Nilai UT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d9488;
+            --secondary-color: #134e4a;
+            --bg-light: #f0fdfa;
+            --text-dark: #1f2937;
+            --success: #059669;
+            --danger: #dc2626;
+            --saweria-color: #faad14;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container { width: 100%; max-width: 500px; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ccfbf1;
+        }
+        .header h1 { margin: 0; color: var(--secondary-color); font-size: 1.6rem; font-weight: 800; }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: #4b5563; }
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+        }
+        
+        .btn-cek {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 20px;
+        }
+        .btn-cek:active { transform: scale(0.98); background-color: var(--secondary-color); }
+
+        #result-area { display: none; margin-bottom: 25px; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .status-box {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .status-aman { background-color: #d1fae5; color: var(--success); border: 1px solid #34d399; }
+        .status-bahaya { background-color: #fee2e2; color: var(--danger); border: 1px solid #f87171; }
+
+        .final-box {
+            text-align: center;
+            padding: 25px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+        .final-box .nilai-angka { font-size: 3rem; font-weight: 800; }
+        .final-box .nilai-huruf { font-size: 1.4rem; font-weight: 700; color: #5eead4; }
+
+        .disclaimer-box {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-align: center;
+            background: #f9fafb;
+            padding: 10px;
+            border-radius: 8px;
+            line-height: 1.4;
+            border: 1px solid #e5e7eb;
+        }
+
+        .donation-section {
+            margin-top: 20px;
+            border-top: 2px dashed #e5e7eb;
+            padding-top: 20px;
+        }
+        .donation-card {
+            background-color: #fffbeb;
+            border: 1px solid #fbbf24;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .btn-saweria {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--saweria-color);
+            color: #000;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 0 #d48806;
+        }
+        .btn-saweria:active { transform: translateY(2px); box-shadow: 0 2px 0 #d48806; }
+
+        .footer { text-align: center; margin-top: 35px; font-size: 0.8rem; color: #9ca3af; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Kalkulator Nilai UT</h1>
+    </div>
+
+    <div class="card">
+        <div class="form-group">
+            <label>Pilih Layanan Tutorial</label>
+            <select id="skema">
+                <option value="0.3" selected>Tutorial Online (Tuton) - Bobot 30%</option>
+                <option value="0.5">TTM / Tuweb (Tatap Muka) - Bobot 50%</option>
+                <option value="0.2">TMK (Tugas Mata Kuliah) - Bobot 20%</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Rata-rata Nilai Tugas</label>
+            <input type="number" id="nTugas" placeholder="0 - 100">
+        </div>
+
+        <div class="form-group">
+            <label>Total Soal UAS</label>
+            <select id="nTotal">
+                <option value="50">50 Soal</option>
+                <option value="45">45 Soal</option>
+                <option value="40">40 Soal</option>
+                <option value="35">35 Soal</option>
+                <option value="30">30 Soal</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Jumlah Jawaban Benar UAS</label>
+            <input type="number" id="nBenar" placeholder="Contoh: 25">
+        </div>
+
+        <button class="btn-cek" onclick="hitungNilai()">🔍 CEK PREDIKSI NILAI</button>
+
+        <div id="result-area">
+            <div id="statusBox" class="status-box"></div>
+            
+            <div class="final-box">
+                <div style="font-size: 0.8rem; opacity: 0.8;">PREDIKSI NILAI AKHIR</div>
+                <div id="resAngka" class="nilai-angka">0</div>
+                <div id="resHuruf" class="nilai-huruf">-</div>
+            </div>
+
+            <div class="disclaimer-box">
+                ⚠️ <b>Disclaimer:</b> Alat ini adalah simulasi mandiri. Perhitungan mengacu pada aturan bobot UT terbaru. Nilai resmi tetap ditentukan oleh pihak Universitas Terbuka.
+            </div>
+        </div>
+
+        <div class="donation-section">
+            <div class="donation-card">
+                <p style="margin-bottom: 12px; font-size: 0.85rem; color: #92400e;">
+                    Terbantu dengan alat ini? <br>
+                    <b>Traktir Adi Ilkom segelas kopi</b> agar makin semangat update fiturnya!
+                </p>
+                <a href="https://saweria.co/Adiilkom" target="_blank" class="btn-saweria">
+                    ☕ Dukung via Saweria
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        © 2025 | Dibuat oleh <b>Adi Ilkom</b><br>
+        Mahasiswa Ilmu Komunikasi - Universitas Terbuka
+    </div>
+</div>
+
+<script>
+    function getGrade(skor) {
+        if (skor >= 80) return "Grade: A";
+        if (skor >= 75) return "Grade: A-";
+        if (skor >= 70) return "Grade: B+";
+        if (skor >= 65) return "Grade: B";
+        if (skor >= 60) return "Grade: B-";
+        if (skor >= 55) return "Grade: C+";
+        if (skor >= 40) return "Grade: C";
+        return "Grade: E";
+    }
+
+    function hitungNilai() {
+        const bobotTut = parseFloat(document.getElementById('skema').value);
+        const nTugas = parseFloat(document.getElementById('nTugas').value) || 0;
+        const nBenar = parseFloat(document.getElementById('nBenar').value) || 0;
+        const nTotal = parseInt(document.getElementById('nTotal').value);
+
+        const skorUas = (nBenar / nTotal) * 100;
+        const resArea = document.getElementById('result-area');
+        const statusBox = document.getElementById('statusBox');
+
+        resArea.style.display = 'block';
+
+        let akhir = 0;
+        // Syarat Mutlak UT: UAS Minimal 30% Benar (Skor 30)
+        if (skorUas >= 30) {
+            statusBox.innerText = "✅ UAS AMAN (≥30%)";
+            statusBox.className = "status-box status-aman";
+            akhir = (nTugas * bobotTut) + (skorUas * (1 - bobotTut));
+        } else {
+            statusBox.innerText = "⚠️ UAS DI BAWAH 30%";
+            statusBox.className = "status-box status-bahaya";
+            akhir = skorUas; // Jika UAS < 30%, nilai tugas hangus, nilai akhir = nilai UAS murni
+        }
+
+        document.getElementById('resAngka').innerText = akhir.toFixed(2);
+        document.getElementById('resHuruf').innerText = getGrade(akhir);
+        
+        // Scroll otomatis ke hasil
+        resArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+</script>
+
+</body>
+</html>
+
